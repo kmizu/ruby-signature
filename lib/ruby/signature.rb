@@ -22,5 +22,6 @@ require "ruby/signature/definition_builder"
 require "ruby/signature/substitution"
 require "ruby/signature/constant"
 require "ruby/signature/constant_table"
+require "ruby/signature/writer"
 
 require "ruby/signature/parser"

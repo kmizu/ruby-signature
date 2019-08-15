@@ -2,7 +2,7 @@ class Ruby::Signature::Parser
   token tUIDENT tLIDENT tNAMESPACE tINTERFACEIDENT tLKEYWORD tUKEYWORD tGLOBALIDENT
         tIVAR tCLASSVAR
         tANNOTATION
-        tSTRING tSYMBOL tINTEGER
+        tSTRING tSYMBOL tINTEGER tWRITE_ATTR
         kLPAREN kRPAREN kLBRACKET kRBRACKET kLBRACE kRBRACE
         kVOID kNIL kANY kTOP kBOT kSELF kSELFQ kINSTANCE kCLASS kBOOL kSINGLETON kTYPE kDEF kMODULE kSUPER
         kPRIVATE kPUBLIC kALIAS
@@ -453,7 +453,7 @@ rule
                                   location: val[0].location + val[1].location)
       }
     | tQUOTEDMETHOD
-
+    | tWRITE_ATTR
 
   method_name0: tUIDENT | tLIDENT | identifier_keywords
 
@@ -1068,7 +1068,10 @@ PUNCTS = {
   "!~" => :tOPERATOR,
   "!=" => :tOPERATOR,
   ">=" => :tOPERATOR,
+  "<<" => :tOPERATOR,
+  "<=>" => :tOPERATOR,
   "<=" => :tOPERATOR,
+  ">>" => :tOPERATOR,
   ">" => :tOPERATOR,
   "~" => :tOPERATOR,
   "+@" => :tOPERATOR,
@@ -1134,6 +1137,8 @@ def next_token
     new_token(:tANNOTATION, s)
   when input.scan(/self\?/)
     new_token(:kSELFQ, "self?")
+  when input.scan(/(([a-zA-Z]\w*)|(_\w+))=/)
+    new_token(:tWRITE_ATTR)
   when input.scan(KEYWORDS_RE)
     new_token(KEYWORDS[input.matched], input.matched.to_sym)
   when input.scan(/:\w+\b/)
@@ -1153,12 +1158,12 @@ def next_token
     new_token(:tIVAR, input.matched.to_sym)
   when input.scan(/@@[a-zA-Z_]\w*/)
     new_token(:tCLASSVAR, input.matched.to_sym)
-  when input.scan(/[A-Z]\w*\b/)
-    new_token(:tUIDENT)
-  when input.scan(/[a-z]\w*\b/)
-    new_token(:tLIDENT)
   when input.scan(/_[a-zA-Z]\w*\b/)
     new_token(:tINTERFACEIDENT)
+  when input.scan(/[A-Z]\w*\b/)
+    new_token(:tUIDENT)
+  when input.scan(/[a-z_]\w*\b/)
+    new_token(:tLIDENT)
   when input.scan(/"(\\"|[^"])*"/)
     s = input.matched.yield_self {|s| s[1, s.length - 2] }.gsub(/\\"/, '"')
     new_token(:tSTRING, s)
