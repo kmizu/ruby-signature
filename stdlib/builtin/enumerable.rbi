@@ -1,167 +1,146 @@
-module Enumerable[A, B] : _Each[A, B]
-  def all?: -> bool
-          | { (A) -> any } -> bool
-          | (any) -> bool
+module Enumerable
+  def each: () { (Elem arg0) -> BasicObject } -> any
+          | () -> self
 
-  def any?: -> bool
-          | { (A) -> any } -> bool
-          | (any) -> bool
+  def all?: () -> T::Boolean
+          | () { (Elem arg0) -> BasicObject } -> T::Boolean
 
-  def chunk: { (A) -> any } -> Enumerator[A, self]
+  def `any?`: () -> T::Boolean
+            | () { (Elem arg0) -> BasicObject } -> T::Boolean
 
-  def chunk_while: { (A, A) -> any } -> Enumerator[A, B]
+  def collect: [U] () { (Elem arg0) -> U } -> ::Array[U]
+             | () -> T::Enumerator[Elem]
 
-  def collect: [X] { (A) -> X } -> Array[X]
-             | [X] -> Enumerator[A, Array[X]]
+  def collect_concat: [U] () { (Elem arg0) -> T::Enumerator[U] } -> ::Array[U]
 
-  alias map collect
-  
-  def flat_map: [X] { (A) -> Array[X] } -> Array[X]
-              | [X] -> Enumerator[A, Array[X]]
+  def count: () -> Integer
+           | (?BasicObject arg0) -> Integer
+           | () { (Elem arg0) -> BasicObject } -> Integer
 
-  def collect_concat: [X] { (A) -> Array[X] } -> Array[X]
-                    | [X] -> Enumerator[A, Array[X]]
+  def cycle: (?Integer n) { (Elem arg0) -> BasicObject } -> NilClass
+           | (?Integer n) -> T::Enumerator[Elem]
 
-  def count: -> Integer
-           | (any) -> Integer
-           | { (A) -> any } -> Integer
+  def detect: (?Proc ifnone) { (Elem arg0) -> BasicObject } -> Elem?
+            | (?Proc ifnone) -> T::Enumerator[Elem]
 
-  def cycle: (?Integer) -> Enumerator[A, nil]
-           | (?Integer) { (A) -> any } -> nil
+  def drop: (Integer n) -> ::Array[Elem]
 
-  def detect: (A) { (A) -> any } -> A
-            | { (A) -> any } -> A?
-            | -> Enumerator[A, A?]
-            | (A) -> Enumerator[A, A]
+  def drop_while: () { (Elem arg0) -> BasicObject } -> ::Array[Elem]
+                | () -> T::Enumerator[Elem]
 
-  def find: (A) { (A) -> any } -> A
-          | { (A) -> any } -> A?
-          | -> Enumerator[A, A?]
-          | (A) -> Enumerator[A, A]
+  def each_cons: (Integer n) { (::Array[Elem] arg0) -> BasicObject } -> NilClass
+               | (Integer n) -> T::Enumerator[::Array[Elem]]
 
-  def drop: (Integer) -> Array[A]
+  def each_with_index: () { (Elem arg0, Integer arg1) -> BasicObject } -> T::Enumerable[Elem]
+                     | () -> T::Enumerator[[ Elem, Integer ]]
 
-  def drop_while: -> Enumerator[A, Array[A]]
-                | { (A) -> any } -> Array[A]
+  def each_with_object: [U] (U arg0) { (Elem arg0, any arg1) -> BasicObject } -> U
+                      | [U] (U arg0) -> T::Enumerator[[ Elem, U ]]
 
-  def each_cons: (Integer) -> Enumerator[Array[A], nil]
-               | (Integer) { (Array[A]) -> any } -> nil
+  def entries: () -> ::Array[Elem]
 
-  def each_entry: -> Enumerator[A, self]
-                | { (A) -> any } -> self
+  def find_all: () { (Elem arg0) -> BasicObject } -> ::Array[Elem]
+              | () -> T::Enumerator[Elem]
 
-  def each_slice: (Integer) -> Enumerator[Array[A], nil]
-                | (Integer) { (Array[A]) -> any } -> nil
+  def find_index: (?BasicObject value) -> Integer?
+                | () { (Elem arg0) -> BasicObject } -> Integer?
+                | () -> T::Enumerator[Elem]
 
-  def each_with_index: { (A, Integer) -> any } -> self
+  def first: () -> Elem?
+           | (?Integer n) -> ::Array[Elem]?
 
-  def each_with_object: [X] (X) { (A, X) -> any } -> X
+  def grep: (BasicObject arg0) -> ::Array[Elem]
+          | [U] (BasicObject arg0) { (Elem arg0) -> U } -> ::Array[U]
 
-  def to_a: -> Array[A]
-  def entries: -> Array[A]
+  def group_by: [U] () { (Elem arg0) -> U } -> ::Hash[U, ::Array[Elem]]
+              | () -> T::Enumerator[Elem]
 
-  def find_all: -> Enumerator[A, Array[A]]
-              | { (A) -> any } -> Array[A]
-  def select: -> Enumerator[A, Array[A]]
-            | { (A) -> any } -> Array[A]
-  alias filter select
+  def `include?`: (BasicObject arg0) -> T::Boolean
 
-  def find_index: (any) -> Integer?
-                | { (A) -> any } -> Integer?
-                | -> Enumerator[A, Integer?]
+  def inject: [Any] (?Any initial, ?Symbol arg0) -> any
+            | (?Symbol arg0) -> any
+            | (?Elem initial) { (Elem arg0, Elem arg1) -> Elem } -> Elem
+            | () { (Elem arg0, Elem arg1) -> Elem } -> Elem?
 
-  def first: () -> A?
-           | (Integer) -> Array[A]
+  def max: () -> Elem?
+         | () { (Elem arg0, Elem arg1) -> Integer } -> Elem?
+         | (?Integer arg0) -> ::Array[Elem]
+         | (?Integer arg0) { (Elem arg0, Elem arg1) -> Integer } -> ::Array[Elem]
 
-  def grep: (any) -> Array[A]
-          | [X] (any) { (A) -> X } -> Array[X]
+  def max_by: () -> T::Enumerator[Elem]
+            | () { (Elem arg0) -> (Comparable | ::Array[BasicObject]) } -> Elem?
+            | (?Integer arg0) -> T::Enumerator[Elem]
+            | (?Integer arg0) { (Elem arg0) -> (Comparable | ::Array[BasicObject]) } -> ::Array[Elem]
 
-  def grep_v: (any) -> Array[A]
-            | [X] (any) { (A) -> X } -> Array[X]
+  def min: () -> Elem?
+         | () { (Elem arg0, Elem arg1) -> Integer } -> Elem?
+         | (?Integer arg0) -> ::Array[Elem]
+         | (?Integer arg0) { (Elem arg0, Elem arg1) -> Integer } -> ::Array[Elem]
 
-  def group_by: [X] { (A) -> X } -> Hash[X, Array[A]]
+  def min_by: () -> T::Enumerator[Elem]
+            | () { (Elem arg0) -> (Comparable | ::Array[BasicObject]) } -> Elem?
+            | (?Integer arg0) -> T::Enumerator[Elem]
+            | (?Integer arg0) { (Elem arg0) -> (Comparable | ::Array[BasicObject]) } -> ::Array[Elem]
 
-  def member?: (any) -> bool
-  def include?: (any) -> bool
+  def minmax: () -> [ Elem?, Elem? ]
+            | () { (Elem arg0, Elem arg1) -> Integer } -> [ Elem?, Elem? ]
 
-  def inject: [X] (X) { (X, A) -> X } -> X
-            | (Symbol) -> any
-            | (any, Symbol) -> any
-            | { (A, A) -> A } -> A
+  def minmax_by: () -> [ Elem?, Elem? ]
+               | () { (Elem arg0) -> (Comparable | ::Array[BasicObject]) } -> T::Enumerator[Elem]
 
+  def none?: () -> T::Boolean
+           | () { (Elem arg0) -> BasicObject } -> T::Boolean
 
-  def reduce: [X] (X) { (X, A) -> X } -> X
-            | (Symbol) -> any
-            | (any, Symbol) -> any
-            | { (A, A) -> A } -> A
+  def one?: () -> T::Boolean
+          | () { (Elem arg0) -> BasicObject } -> T::Boolean
 
-  def max: -> A?
-         | (Integer) -> Array[A]
-         | { (A, A) -> Integer } -> A?
-         | (Integer) { (A, A) -> Integer } -> Array[A]
+  def partition: () { (Elem arg0) -> BasicObject } -> [ ::Array[Elem], ::Array[Elem] ]
+               | () -> T::Enumerator[Elem]
 
-  def max_by: { (A, A) -> Integer } -> A?
-            | (Integer) { (A, A) -> Integer } -> Array[A]
+  def reject: () { (Elem arg0) -> BasicObject } -> ::Array[Elem]
+            | () -> T::Enumerator[Elem]
 
-  def min: -> A?
-         | (Integer) -> Array[A]
-         | { (A, A) -> Integer } -> A?
-         | (Integer) { (A, A) -> Integer } -> Array[A]
+  def reverse_each: () { (Elem arg0) -> BasicObject } -> T::Enumerator[Elem]
+                  | () -> T::Enumerator[Elem]
 
-  def min_by: { (A, A) -> Integer } -> A?
-            | (Integer) { (A, A) -> Integer } -> Array[A]
+  def sort: () -> ::Array[Elem]
+          | () { (Elem arg0, Elem arg1) -> Integer } -> ::Array[Elem]
 
-  def min_max: -> Array[A]
-             | { (A, A) -> Integer } -> Array[A]
+  def sort_by: () { (Elem arg0) -> (Comparable | ::Array[BasicObject]) } -> ::Array[Elem]
+             | () -> T::Enumerator[Elem]
 
-  def min_max_by: { (A, A) -> Integer } -> Array[A]
+  def take: (Integer n) -> ::Array[Elem]?
 
-  def none?: -> bool
-           | { (A) -> any } -> bool
-           | (any) -> bool
+  def take_while: () { (Elem arg0) -> BasicObject } -> ::Array[Elem]
+                | () -> T::Enumerator[Elem]
 
-  def one?: -> bool
-          | { (A) -> any } -> bool
-          | (any) -> bool
+  def to_h: () -> ::Hash[any, any]
 
-  def partition: { (A) -> any } -> Array[Array[A]]
-               | -> Enumerator[A, Array[Array[A]]]
+  def each_slice: (Integer n) { (::Array[Elem] arg0) -> BasicObject } -> NilClass
+                | (Integer n) -> T::Enumerator[::Array[Elem]]
 
-  def reject: { (A) -> any } -> Array[A]
-            | -> Enumerator[A, Array[A]]
+  def find: (?Proc ifnone) { (Elem arg0) -> BasicObject } -> Elem?
+          | (?Proc ifnone) -> T::Enumerator[Elem]
 
-  def reverse_each: { (A) -> void } -> self
-                  | -> Enumerator[A, self]
+  def flat_map: [U] () { (Elem arg0) -> U } -> U
+              | () -> T::Enumerator[Elem]
 
-  def slice_after: (any) -> Enumerator[Array[A], nil]
-                 | { (A) -> any } -> Enumerator[Array[A], nil]
+  def map: [U] () { (Elem arg0) -> U } -> ::Array[U]
+         | () -> T::Enumerator[Elem]
 
-  def slice_before: (any) -> Enumerator[Array[A], nil]
-                  | { (A) -> any } -> Enumerator[Array[A], nil]
+  def member?: (BasicObject arg0) -> T::Boolean
 
-  def slice_when: { (A, A) -> any } -> Enumerator[Array[A], nil]
+  def reduce: [Any] (?Any initial, ?Symbol arg0) -> any
+            | (?Symbol arg0) -> any
+            | (?Elem initial) { (Elem arg0, Elem arg1) -> Elem } -> Elem
+            | () { (Elem arg0, Elem arg1) -> Elem } -> Elem?
 
-  def sort: -> Array[A]
-          | { (A, A) -> Integer } -> Array[A]
+  def select: () { (Elem arg0) -> BasicObject } -> ::Array[Elem]
+            | () -> T::Enumerator[Elem]
 
-  def sort_by: { (A) -> any } -> Array[A]
-             | -> Enumerator[A, Array[A]]
+  def to_a: () -> ::Array[Elem]
 
-  def sort_by!: { (A) -> any } -> self
-              | -> Enumerator[A, self]
-
-  def sum: () -> Numeric
-         | (Numeric) -> Numeric
-         | (any) -> any
-         | (?any) { (A) -> any } -> any
-
-  def take: (Integer) -> Array[A]
-
-  def take_while: { (A) -> bool } -> Array[A]
-                | -> Enumerator[A, Array[A]]
-
-  def to_h: -> Hash[any, any]
-
-  def uniq: -> Array[A]
-          | { (A) -> any } -> Array[A]
+  def lazy: () -> Enumerator::Lazy[Elem]
 end
+
+Enumerable::Elem: any

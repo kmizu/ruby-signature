@@ -1,172 +1,232 @@
-class Array[A]
-  include Enumerable[A, self]
+class Array < Object
+  include Enumerable
 
-  def initialize: (?Integer, ?A) -> void
-                | (self) -> void
-                | (Integer) { (Integer) -> A } -> void
+  def self.[]: [U] (*U arg0) -> ::Array[U]
 
-  def `*`: (Integer) -> self
-         | (String) -> String
-  def `-`: (self) -> self
-  def difference: (self) -> self
-  def `+`: (self) -> self
-  def `|`: (self) -> self
-  def union: (self) -> self
-  def `&`: (self) -> self
-  def `<<`: (A) -> self
+  def &: (::Array[Elem] arg0) -> ::Array[Elem]
 
-  def `[]`: (Integer) -> A
-          | (Range[Integer]) -> self?
-          | (0, Integer) -> self
-          | (Integer, Integer) -> self?
-  def at: (Integer) -> A
-        | (Range[Integer]) -> self?
-        | (Integer, Integer) -> self?
-  def `[]=`: (Integer, A) -> A
-           | (Integer, Integer, A) -> A
-           | (Integer, Integer, self) -> self
-           | (Range[Integer], A) -> A
-           | (Range[Integer], self) -> self
+  def *: (Integer arg0) -> ::Array[Elem]
+       | (String arg0) -> String
 
-  def push: (*A) -> self
-  def append: (*A) -> self
+  def +: (T::Enumerable[Elem] arg0) -> ::Array[Elem]
+       | (::Array[Elem] arg0) -> ::Array[Elem]
 
-  def clear: -> self
+  def -: (::Array[any] arg0) -> ::Array[Elem]
 
-  def collect!: { (A) -> A } -> self
-              | -> Enumerator[A, self]
-  def map!: { (A) -> A } -> self
-          | -> Enumerator[A, self]
+  def <<: (Elem arg0) -> ::Array[Elem]
 
-  def combination: (?Integer) { (self) -> any } -> Array[self]
-                 | (?Integer) -> Enumerator[self, Array[self]]
+  def []: (Integer | Float arg0) -> Elem?
+        | (::Range[Integer] arg0) -> ::Array[Elem]?
+        | (Integer arg0, ?Integer arg1) -> ::Array[Elem]?
 
-  def empty?: -> bool
-  def compact: -> self
-  def compact!: -> self?
-  def concat: (*Array[A]) -> self
-            | (*A) -> self
-  def delete: (A) -> A?
-            | [X] (A) { () -> X } -> (A | X)
-  def delete_at: (Integer) -> A?
-  def delete_if: { (A) -> any } -> self
-               | -> Enumerator[A, self]
-  def reject!: { (A) -> any } -> self?
-             | -> Enumerator[A, self?]
-  def dig: (Integer, *any) -> any
-  def each: { (A) -> any } -> self
-          | -> Enumerator[A, self]
-  def each_index: { (Integer) -> any } -> self
-                | -> Enumerator[Integer, self]
-  def fetch: (Integer) -> A
-           | (Integer, A) -> A
-           | (Integer) { (Integer) -> A } -> A
-  def fill: (A) -> self
-          | { (Integer) -> A } -> self
-          | (A, Integer, ?Integer?) -> self
-          | (A, Range[Integer]) -> self
-          | (Integer, ?Integer?) { (Integer) -> A} -> self
-          | (Range[Integer]) { (Integer) -> A } -> self
+  def []=: (Integer arg0, Elem arg1) -> Elem
+         | (Integer arg0, Integer arg1, ?Elem arg2) -> Elem
+         | (::Range[Integer] arg0, Elem arg1) -> Elem
 
-  def find_index: (A) -> Integer?
-                | { (A) -> any } -> Integer?
-                | -> Enumerator[A, Integer?]
+  def `append`: (*Elem arg0) -> ::Array[Elem]
 
-  def index: (A) -> Integer?
-           | { (A) -> any } -> Integer?
-           | -> Enumerator[A, Integer?]
+  def assoc: (Elem arg0) -> ::Array[Elem]
 
-  def flatten: (?Integer?) -> Array[any]
-  def flatten!: (?Integer?) -> self?
+  def at: (Integer arg0) -> Elem
 
-  def insert: (Integer, *A) -> self
+  def clear: () -> ::Array[Elem]
 
-  def join: (any) -> String
+  def collect: [U] () { (Elem arg0) -> U } -> ::Array[U]
+             | () -> T::Enumerator[Elem]
 
-  def keep_if: { (A) -> any } -> self
-             | -> Enumerator[A, self]
+  def combination: (Integer arg0) { (::Array[Elem] arg0) -> BasicObject } -> ::Array[Elem]
+                 | (Integer arg0) -> T::Enumerator[::Array[Elem]]
 
-  def last: -> A?
-          | (Integer) -> self
+  def compact: () -> ::Array[any]
 
-  def length: -> Integer
-  def size: -> Integer
+  def compact!: () -> ::Array[Elem]
 
-  def pack: (String, ?buffer: String) -> String
+  def concat: [T] (::Array[T] arrays) -> ::Array[Elem | T]
 
-  def permutation: (?Integer) { (self) -> any } -> self
-                 | (?Integer) -> Enumerator[self, self]
+  def count: () -> Integer
+           | (?Elem arg0) -> Integer
+           | () { (Elem arg0) -> BasicObject } -> Integer
 
-  def pop: -> A?
-         | (Integer) -> self
+  def cycle: (?Integer arg0) { (Elem arg0) -> BasicObject } -> any
+           | (?Integer arg0) -> T::Enumerator[Elem]
 
-  def unshift: (*A) -> self
-  def prepend: (*A) -> self
+  def delete: (Elem arg0) -> Elem?
+            | (Elem arg0) { () -> Elem } -> Elem
 
-  def product: (*Array[A]) -> Array[Array[A]]
-             | (*Array[A]) { (Array[A]) -> any } -> self
+  def delete_at: (Integer arg0) -> Elem?
 
-  def assoc: (any) -> any
-  def rassoc: (any) -> any
+  def delete_if: () { (Elem arg0) -> BasicObject } -> ::Array[Elem]
+               | () -> T::Enumerator[Elem]
 
-  def repeated_combination: (Integer) { (self) -> any } -> self
-                          | (Integer) -> Enumerator[self, self]
+  def difference: (*::Array[any] arrays) -> ::Array[Elem]
 
-  def repeated_permutation: (Integer) { (self) -> any } -> self
-                          | (Integer) -> Enumerator[self, self]
+  def drop: (Integer arg0) -> ::Array[Elem]
 
-  def replace: (self) -> self
+  def drop_while: () { (Elem arg0) -> BasicObject } -> ::Array[Elem]
+                | () -> T::Enumerator[Elem]
 
-  def reverse: -> self
-  def reverse!: -> self
-  def reverse_each: { (A) -> any } -> self
-                  | -> Enumerator[A, self]
+  def each: () -> T::Enumerator[Elem]
+          | () { (Elem arg0) -> BasicObject } -> ::Array[Elem]
 
-  def rindex: (A) -> Integer?
-            | { (A) -> any } -> Integer?
-            | -> Enumerator[A, Integer?]
+  def each_index: () { (Integer arg0) -> BasicObject } -> ::Array[Elem]
+                | () -> T::Enumerator[Elem]
 
-  def rotate: (?Integer) -> self
+  def empty?: () -> T::Boolean
 
-  def rotate!: (?Integer) -> self
+  def fetch: (Integer arg0) -> Elem
+           | (Integer arg0, ?Elem arg1) -> Elem
+           | (Integer arg0) { (Integer arg0) -> Elem } -> Elem
 
-  def sample: (?random: any) -> A?
-            | (Integer, ?random: any) -> self
+  def fill: (?Elem arg0) -> ::Array[Elem]
+          | (?Elem arg0, ?Integer arg1, ?Integer arg2) -> ::Array[Elem]
+          | (?Elem arg0, ?::Range[Integer] arg1) -> ::Array[Elem]
+          | () { (Integer arg0) -> Elem } -> ::Array[Elem]
+          | (?Integer arg0, ?Integer arg1) { (Integer arg0) -> Elem } -> ::Array[Elem]
+          | (?::Range[Integer] arg0) { (Integer arg0) -> Elem } -> ::Array[Elem]
 
-  def select!: -> Enumerator[A, self]
-             | { (A) -> any } -> self
-  def filter!: -> Enumerator[A, self]
-             | { (A) -> any } -> self
+  def first: () -> Elem?
+           | (?Integer arg0) -> ::Array[Elem]
 
-  def shift: -> A?
-           | (Integer) -> self
+  def flatten: (?Integer depth) -> ::Array[any]
 
-  def shuffle: (?random: any) -> self
+  def `include?`: [U] (U arg0) -> T::Boolean
 
-  def shuffle!: (?random: any) -> self
+  def index: [U] (?U arg0) -> Integer?
+           | () { (Elem arg0) -> BasicObject } -> Integer?
+           | () -> T::Enumerator[Elem]
 
-  def slice: (Integer) -> A?
-           | (Integer, Integer) -> self?
-           | (Range[Integer]) -> self?
+  def initialize: () -> Object
+                | (?Integer arg0) -> Object
+                | (?Integer arg0, ?Elem arg1) -> void
 
-  def slice!: (Integer) -> A?
-            | (Integer, Integer) -> self?
-            | (Range[Integer]) -> self?
+  def insert: (Integer arg0, *Elem arg1) -> ::Array[Elem]
 
-  def to_a: -> self
-  def to_ary: -> self
-  def to_h: -> Hash[any, any]
+  def inspect: () -> String
 
-  def transpose: -> self
+  def join: (?String arg0) -> String
 
-  def uniq!: -> self?
-           | { (A) -> any } -> self?
+  def keep_if: () { (Elem arg0) -> BasicObject } -> ::Array[Elem]
 
-  def values_at: (*Integer | Range[Integer]) -> self
+  def last: () -> Elem?
+          | (?Integer arg0) -> ::Array[Elem]
 
-  def zip: [X] (Array[X]) -> Array[[A, X]]
-         | [X] (Array[X]) { (A, X) -> any } -> nil
+  def length: () -> Integer
 
-  def bsearch: { (A) -> any } -> A?
-  def bsearch_index : { (A) -> any } -> Integer?
+  def map: [U] () { (Elem arg0) -> U } -> ::Array[U]
+         | () -> T::Enumerator[Elem]
+
+  def map!: [U] () { (Elem arg0) -> U } -> ::Array[U]
+          | () -> T::Enumerator[Elem]
+
+  def member?: (Elem arg0) -> T::Boolean
+
+  def permutation: (?Integer arg0) -> T::Enumerator[Elem]
+                 | (?Integer arg0) { (::Array[Elem] arg0) -> BasicObject } -> ::Array[Elem]
+
+  def pop: (?Integer arg0) -> ::Array[Elem]
+         | () -> Elem?
+
+  def `prepend`: (*Elem arg0) -> ::Array[Elem]
+
+  def product: [U] (*::Array[U] arg0) -> ::Array[::Array[Elem | U]]
+
+  def push: (*Elem arg0) -> ::Array[Elem]
+
+  def rassoc: [U] (U arg0) -> Elem?
+
+  def reject: () { (Elem arg0) -> BasicObject } -> ::Array[Elem]
+            | () -> T::Enumerator[Elem]
+
+  def reject!: () { (Elem arg0) -> BasicObject } -> ::Array[Elem]
+             | () -> T::Enumerator[Elem]
+
+  def repeated_combination: (Integer arg0) { (::Array[Elem] arg0) -> BasicObject } -> ::Array[Elem]
+                          | (Integer arg0) -> T::Enumerator[Elem]
+
+  def repeated_permutation: (Integer arg0) { (::Array[Elem] arg0) -> BasicObject } -> ::Array[Elem]
+                          | (Integer arg0) -> T::Enumerator[Elem]
+
+  def reverse: () -> ::Array[Elem]
+
+  def reverse!: () -> ::Array[Elem]
+
+  def reverse_each: () { (Elem arg0) -> BasicObject } -> ::Array[Elem]
+                  | () -> T::Enumerator[Elem]
+
+  def rindex: (?Elem arg0) -> Integer?
+            | () { (Elem arg0) -> BasicObject } -> Integer?
+            | () -> T::Enumerator[Elem]
+
+  def rotate: (?Integer arg0) -> ::Array[Elem]
+
+  def rotate!: (?Integer arg0) -> ::Array[Elem]
+
+  def sample: () -> Elem?
+            | (?Integer arg0) -> ::Array[Elem]
+
+  def select: () { (Elem arg0) -> BasicObject } -> ::Array[Elem]
+            | () -> T::Enumerator[Elem]
+
+  def select!: () { (Elem arg0) -> BasicObject } -> ::Array[Elem]
+             | () -> T::Enumerator[Elem]
+
+  def shift: () -> Elem?
+           | (?Integer arg0) -> ::Array[Elem]
+
+  def shuffle: () -> ::Array[Elem]
+
+  def shuffle!: () -> ::Array[Elem]
+
+  def slice!: (::Range[Integer] arg0) -> ::Array[Elem]
+            | (Integer arg0, ?Integer arg1) -> ::Array[Elem]
+            | (Integer | Float arg0) -> Elem?
+
+  def sort: () -> ::Array[Elem]
+          | () { (Elem arg0, Elem arg1) -> Integer } -> ::Array[Elem]
+
+  def sort!: () -> ::Array[Elem]
+           | () { (Elem arg0, Elem arg1) -> Integer } -> ::Array[Elem]
+
+  def sort_by!: [U] () { (Elem arg0) -> U } -> ::Array[Elem]
+              | () -> T::Enumerator[Elem]
+
+  def take: (Integer arg0) -> ::Array[Elem]
+
+  def take_while: () { (Elem arg0) -> BasicObject } -> ::Array[Elem]
+                | () -> T::Enumerator[Elem]
+
+  def to_a: () -> ::Array[Elem]
+
+  def to_ary: () -> ::Array[Elem]
+
+  def transpose: () -> ::Array[Elem]
+
+  def union: (*::Array[any] arrays) -> ::Array[any]
+
+  def uniq: () -> ::Array[Elem]
+
+  def uniq!: () -> ::Array[Elem]
+
+  def unshift: (*Elem arg0) -> ::Array[Elem]
+
+  def values_at: (*::Range[Integer] | Integer arg0) -> ::Array[Elem]
+
+  def zip: [U] (*::Array[U] arg0) -> ::Array[[ Elem, U? ]]
+
+  def |: (::Array[Elem] arg0) -> ::Array[Elem]
+
+  def size: () -> Integer
+
+  def slice: (::Range[Integer] arg0) -> ::Array[Elem]?
+           | (Integer | Float arg0) -> Elem?
+           | (Integer arg0, ?Integer arg1) -> ::Array[Elem]?
+
+  def sum: () -> (Elem | Integer)
+         | [T] () { (Elem arg0) -> T } -> (Integer | T)
+         | [T] (?T arg0) -> (Elem | T)
+         | [U] (?U arg0) { (Elem arg0) -> U } -> U
+
+  def to_s: () -> String
 end
+
+Array::Elem: any

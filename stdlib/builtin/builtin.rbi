@@ -14,13 +14,3 @@ interface _Each[A, B]
   def each: { (A) -> void } -> B
 end
 
-class TrueClass
-  def !: -> bool
-end
-
-class FalseClass
-  def !: -> bool
-end
-
-class NilClass
-end

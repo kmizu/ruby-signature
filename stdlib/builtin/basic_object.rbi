@@ -1,18 +1,18 @@
 class BasicObject
-  def initialize: -> void
-  def !: () -> bool
-  def `!=`: (any) -> bool
-  def __id__: -> Integer
-  def __send__: (*any) -> any
-  def equal?: (any) -> bool
-  def instance_eval: (String, ?String filename, ?Integer lineno) -> any
-                   | [X] { (self) -> X } -> X
-  def instance_exec: [X] (*any) { (*any) -> X } -> X
+  def !: () -> T::Boolean
 
-  private
+  def !=: (BasicObject other) -> T::Boolean
 
-  def method_missing: (Symbol, *any) -> any
-  def singleton_method_added: (Symbol) -> void
-  def singleton_method_removed: (Symbol) -> void
-  def singleton_method_undefined: (Symbol) -> void
+  def ==: (BasicObject other) -> T::Boolean
+
+  def __id__: () -> Integer
+
+  def __send__: (Symbol arg0, *BasicObject arg1) -> any
+
+  def equal?: (BasicObject other) -> T::Boolean
+
+  def instance_eval: (?String arg0, ?String filename, ?Integer lineno) -> any
+                   | [U] () { () -> U } -> U
+
+  def instance_exec: [U, V] (*V args) { (any args) -> U } -> U
 end
